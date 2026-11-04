@@ -1,6 +1,5 @@
 #!/usr/bin/env node
-// Guard against accidentally committing local research datasets or game archives.
-// This is a repository hygiene check, not a rights-clearance or bundle audit.
+// Repository hygiene only; this does not certify rights or inspect built bundles.
 import { execFileSync } from 'node:child_process';
 
 const paths = execFileSync('git', ['ls-files', '-z'], { encoding: 'utf8' })
@@ -21,8 +20,13 @@ const violations = paths.filter(
 );
 
 if (violations.length > 0) {
-  console.error('Forbidden tracked research artifacts:\n' + violations.map((path) => '  - ' + path).join('\n'));
+  console.error(
+    'Forbidden tracked research artifacts:\n' +
+      violations.map((path) => '  - ' + path).join('\n'),
+  );
   process.exitCode = 1;
 } else {
-  console.log('Data boundary check passed: no forbidden research paths or archives tracked.');
+  console.log(
+    'Data boundary check passed: no forbidden research paths or archives tracked.',
+  );
 }
