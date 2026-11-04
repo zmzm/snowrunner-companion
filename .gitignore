@@ -8,14 +8,14 @@ coverage/
 !.env.example
 .DS_Store
 .pnpm-store/
-data/raw/
-*.pak
-*.zip
-*.7z
 
-# Local research and generated game datasets: never commit or bundle
+# Research inputs, generated datasets, and reports are local only.
 /data/raw/
 /data/normalized/
 /data/reports/
 /packages/game-data/generated/
-# Extracted proprietary artifacts (XML belongs in data/raw/, not globally ignored)
+
+# Do not track game archives.
+*.pak
+*.zip
+*.7z
