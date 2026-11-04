@@ -89,6 +89,5 @@ before adding data or images.
 4. Run `pnpm check` and review the diff for secrets and unlicensed assets.
 5. Open a pull request describing behavior, validation and known limitations.
 
-Git is initialized locally on `main`. Hosting, remote URL and repository visibility
-are not configured. Add a chosen remote before publishing; the project has no
-open-source license selected yet.
+The public repository is hosted on [GitHub](https://github.com/zmzm/snowrunner-companion),
+with `main` as the default branch. No open-source license has been selected yet.
