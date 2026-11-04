@@ -6,6 +6,14 @@ No game data has been imported. `catalogStatus` reports schema version 1, no dat
 version, zero truck IDs and no sources. The provenance Zod schema validates metadata
 only; it is not a truck schema, importer or compatibility engine.
 
+## Source audits
+
+The [ANK MK38 source audit](data/ank-mk38-source-audit.md) records observed SR!NFO
+fields, pinned historical XML observations, source hashes, conflicts and extraction
+steps. The audit concludes with a no-go for production import pending rights and
+stock-source verification.
+It does not clear data or imagery for import; the catalog remains empty.
+
 ## Planned inputs
 
 The [MVP decision record](product/mvp.md) identifies SR!NFO Google Sheet overview

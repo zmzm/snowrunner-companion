@@ -77,7 +77,9 @@ The catalog is empty. SR!NFO overview data and legally sourced game XML are prop
 sources, subject to usage-rights verification. Runtime UI must consume reviewed,
 normalized artifacts, never live Google Sheets. Source schemas, XML adapters and
 truck compatibility rules remain future tasks. Read the [data policy](docs/data.md)
-before adding data or images.
+before adding data or images. The [ANK MK38 source audit](docs/data/ank-mk38-source-audit.md)
+records sheet and historical XML evidence, conflicts and a no-go import decision
+pending permission and stock-source verification.
 
 ## Contribution workflow
 
