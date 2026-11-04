@@ -1,0 +1,16 @@
+{
+  "name": "@snowrunner/data-import",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@snowrunner/domain": "workspace:*",
+    "@snowrunner/game-data": "workspace:*"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}
