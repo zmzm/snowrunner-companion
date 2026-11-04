@@ -27,10 +27,41 @@ Never infer missing game stats or compatibility. Represent unknown/conflicting
 facts explicitly according to the data policy. No mock catalog may masquerade
 as validated game data. Do not implement future features just to fill empty packages.
 
+## Game data research and distribution boundary
+
+Two separate gates apply; see [data policy](docs/data.md).
+
+**Development/research:** Agents may inspect lawfully accessible public reference
+material and may build offline parsers, normalize evidence into local ignored paths,
+and validate hypotheses using clearly marked development data. Public accessibility
+does not by itself grant rights to copy, extract, or redistribute the material.
+Honor applicable source terms and access controls; if the permitted scope is unclear,
+use synthetic fixtures and document the outstanding question. Never bypass access
+restrictions or download game archives merely because they exist online.
+
+**Distribution:** Only independently cleared, source-attributed and reviewed
+datasets/assets can be committed as shipped data or bundled into the web application.
+Treat derived JSON as potentially subject to source restrictions too. A private repo
+or `.gitignore` is not a license or a confidentiality guarantee.
+
+Place any permitted local research inputs under `data/raw/`, normalized output
+under `data/normalized/`, and research reports under `data/reports/`.
+These paths and `packages/game-data/generated/` are git-ignored. Do not put them
+in `apps/web/public/`, static imports, remote deployments, pull-request attachments,
+CI artifacts or logs. Never commit source XML or archives. Use synthetic fixtures
+for committed tests. Do not force-add ignored files.
+
+Before claiming a feature is ready, distinguish **Development Ready** (local,
+non-distributed validation) from **Distribution Approved** (rights and source
+verification recorded). Lack of distribution clearance does not block implementing
+parsers, schemas, compatibility rules or an offline prototype. Do not claim
+compatibility with the current SnowRunner version from historical XML alone.
+Run `pnpm check:data-boundary` before completion.
+
 ## Verification before reporting completion
 
 From repository root, install with `pnpm install --frozen-lockfile` when dependencies
-are absent, then run **`pnpm check`**. This runs formatting, lint, all package
+are absent, then run **`pnpm check`** (including the tracked-data boundary check). This runs formatting, lint, all package
 TypeScript checks, tests and production build. If dependencies change, update and
 commit `pnpm-lock.yaml` and validate frozen installation. For web behavior changes,
 also launch `pnpm dev` and check the affected flow in a browser where available.

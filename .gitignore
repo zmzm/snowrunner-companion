@@ -8,7 +8,14 @@ coverage/
 !.env.example
 .DS_Store
 .pnpm-store/
-data/raw/
+
+# Research inputs, generated datasets, and reports are local only.
+/data/raw/
+/data/normalized/
+/data/reports/
+/packages/game-data/generated/
+
+# Do not track game archives.
 *.pak
 *.zip
 *.7z

@@ -52,7 +52,8 @@ Run commands at repository root:
 | `pnpm preview`      | Serve the production build locally                     |
 | `pnpm format`       | Format source and docs                                 |
 | `pnpm format:check` | Verify formatting                                      |
-| `pnpm check`        | All CI quality gates                                   |
+
+The additional `pnpm check:data-boundary` command checks for forbidden tracked research files and archives. It is included in `pnpm check`.
 
 ## Structure
 
@@ -80,6 +81,25 @@ truck compatibility rules remain future tasks. Read the [data policy](docs/data.
 before adding data or images. The [ANK MK38 source audit](docs/data/ank-mk38-source-audit.md)
 records sheet and historical XML evidence, conflicts and a no-go import decision
 pending permission and stock-source verification.
+
+## Local game-data research
+
+Research and public distribution use different gates. Agent development can
+continue with parsers, schemas and synthetic fixtures even when a proposed game's
+dataset is not approved for distribution. Research based on real source material
+must still respect its access and usage conditions.
+
+Any permitted locally derived material belongs in ignored `data/raw/`,
+`data/normalized/`, `data/reports/` or
+`packages/game-data/generated/`. These files must not be committed or imported
+into production browser bundles. `pnpm check:data-boundary` checks for forbidden
+tracked locations and archive extensions; it does not grant rights or guarantee
+a build contains no derived content. See [data policy](docs/data.md) and
+[agent instructions](AGENTS.md).
+
+The production catalog remains empty. This separation allows the compatibility
+engine and 2D Garage prototype to progress with synthetic fixtures while source
+rights and current game-version parity are checked independently.
 
 ## Contribution workflow
 
