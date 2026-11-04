@@ -52,7 +52,8 @@ Run commands at repository root:
 | `pnpm preview`      | Serve the production build locally                     |
 | `pnpm format`       | Format source and docs                                 |
 | `pnpm format:check` | Verify formatting                                      |
-| `pnpm check:data-boundary` | Reject accidentally tracked research assets and archives       |\n| `pnpm check`        | All CI quality gates                                   |
+
+The additional `pnpm check:data-boundary` command checks for forbidden tracked research files and archives. It is included in `pnpm check`.
 
 ## Structure
 
