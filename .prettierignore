@@ -3,3 +3,9 @@ dist/
 coverage/
 pnpm-lock.yaml
 .git/
+
+# Local research must not be read or reported by repository formatting checks.
+/data/raw/
+/data/normalized/
+/data/reports/
+/packages/game-data/generated/

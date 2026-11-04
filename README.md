@@ -41,17 +41,19 @@ Open the local URL printed by Vite (normally http://localhost:5173).
 
 Run commands at repository root:
 
-| Command             | Purpose                                                |
-| ------------------- | ------------------------------------------------------ |
-| `pnpm dev`          | Web development server                                 |
-| `pnpm lint`         | ESLint, including package import restrictions          |
-| `pnpm typecheck`    | Strict TypeScript checks for all five packages         |
-| `pnpm test`         | Vitest provenance and app integration checks           |
-| `pnpm test:watch`   | Watch tests during development                         |
-| `pnpm build`        | Typecheck workspace and build app into `apps/web/dist` |
-| `pnpm preview`      | Serve the production build locally                     |
-| `pnpm format`       | Format source and docs                                 |
-| `pnpm format:check` | Verify formatting                                      |
+| Command                    | Purpose                                                |
+| -------------------------- | ------------------------------------------------------ |
+| `pnpm dev`                 | Web development server                                 |
+| `pnpm lint`                | ESLint, including package import restrictions          |
+| `pnpm typecheck`           | Strict TypeScript checks for all five packages         |
+| `pnpm test`                | Vitest provenance and app integration checks           |
+| `pnpm test:watch`          | Watch tests during development                         |
+| `pnpm build`               | Typecheck workspace and build app into `apps/web/dist` |
+| `pnpm preview`             | Serve the production build locally                     |
+| `pnpm format`              | Format source and docs                                 |
+| `pnpm format:check`        | Verify formatting                                      |
+| `pnpm check:data-boundary` | Check forbidden tracked research files and archives    |
+| `pnpm check`               | All CI quality gates, including the data boundary      |
 
 The additional `pnpm check:data-boundary` command checks for forbidden tracked research files and archives. It is included in `pnpm check`.
 
@@ -79,8 +81,10 @@ sources, subject to usage-rights verification. Runtime UI must consume reviewed,
 normalized artifacts, never live Google Sheets. Source schemas, XML adapters and
 truck compatibility rules remain future tasks. Read the [data policy](docs/data.md)
 before adding data or images. The [ANK MK38 source audit](docs/data/ank-mk38-source-audit.md)
-records sheet and historical XML evidence, conflicts and a no-go import decision
-pending permission and stock-source verification.
+records source locations, evidence questions and separate readiness decisions:
+**Development Ready** with synthetic fixtures; **Distribution Approved** remains
+unmet for real data and imagery. Detailed research output stays in ignored local
+reports; the tracked audit explains how to reproduce the investigation.
 
 ## Local game-data research
 

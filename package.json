@@ -11,7 +11,7 @@
     "dev": "pnpm --filter @snowrunner/web dev",
     "lint": "eslint . --max-warnings 0",
     "typecheck": "tsc -p tsconfig.tooling.json && pnpm -r typecheck",
-    "test": "vitest run",
+    "test": "vitest run && node --test tools/check-data-boundary.test.mjs",
     "test:watch": "vitest",
     "build": "pnpm typecheck && pnpm --filter @snowrunner/web build",
     "preview": "pnpm --filter @snowrunner/web preview",

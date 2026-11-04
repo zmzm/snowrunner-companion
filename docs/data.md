@@ -8,11 +8,11 @@ only; it is not a truck schema, importer or compatibility engine.
 
 ## Source audits
 
-The [ANK MK38 source audit](data/ank-mk38-source-audit.md) records observed SR!NFO
-fields, pinned historical XML observations, source hashes, conflicts and extraction
-steps. The audit concludes with a no-go for production import pending rights and
-stock-source verification.
-It does not clear data or imagery for import; the catalog remains empty.
+The [ANK MK38 source audit](data/ank-mk38-source-audit.md) records source locations,
+version limits, evidence questions and separate readiness decisions. Source-independent
+development can proceed with synthetic fixtures. Real datasets and imagery are not
+Distribution Approved; the production catalog remains empty. Detailed research
+observations live in optional ignored `data/reports/` output, not shipped data.
 
 ## Separate development and distribution gates
 
