@@ -1,0 +1,120 @@
+{
+  "manifestVersion": 1,
+  "datasetVersion": "synthetic-srnfo-v1",
+  "sources": [
+    {
+      "sourceId": "synthetic-srnfo-trucks",
+      "sourceUrl": "https://example.com/synthetic-srnfo/trucks.csv",
+      "sourceVersion": "sha256:880a643342c8b804d5fc3351a85fc9e037b063bc4857259e723baf10485018e8",
+      "retrievedAt": "2026-11-13T00:00:00.000Z",
+      "usageRights": "Authored synthetic fixture; no game content"
+    },
+    {
+      "sourceId": "synthetic-srnfo-engines",
+      "sourceUrl": "https://example.com/synthetic-srnfo/engines.csv",
+      "sourceVersion": "sha256:c65484735e9110f5b227a05c4b09719bbad21ecd6853605b129ea63a17b6b59c",
+      "retrievedAt": "2026-11-13T00:00:00.000Z",
+      "usageRights": "Authored synthetic fixture; no game content"
+    },
+    {
+      "sourceId": "synthetic-srnfo-gearboxes",
+      "sourceUrl": "https://example.com/synthetic-srnfo/gearboxes.csv",
+      "sourceVersion": "sha256:b6d5c6ef2f381f5e549a9eb12d50ae4d0ddb047073ae0b508cc074444baa8d73",
+      "retrievedAt": "2026-11-13T00:00:00.000Z",
+      "usageRights": "Authored synthetic fixture; no game content"
+    },
+    {
+      "sourceId": "synthetic-srnfo-wheels",
+      "sourceUrl": "https://example.com/synthetic-srnfo/wheels.csv",
+      "sourceVersion": "sha256:d0cd70b1b584ac964e1a7c4554029e4158a8bc03bdf893d20d980cb2145b1bee",
+      "retrievedAt": "2026-11-13T00:00:00.000Z",
+      "usageRights": "Authored synthetic fixture; no game content"
+    },
+    {
+      "sourceId": "synthetic-srnfo-addons",
+      "sourceUrl": "https://example.com/synthetic-srnfo/addons.csv",
+      "sourceVersion": "sha256:28bf763528d0f4fb42fce2aa20e9a5c83bd4cbd08d6fe3d46e06efecaef38760",
+      "retrievedAt": "2026-11-13T00:00:00.000Z",
+      "usageRights": "Authored synthetic fixture; no game content"
+    }
+  ],
+  "trucks": {
+    "path": "trucks.csv",
+    "sourceId": "synthetic-srnfo-trucks",
+    "columns": {
+      "xmlName": "XML Name",
+      "displayName": "Display Name",
+      "unlock": {
+        "column": "Unlock",
+        "tokens": {
+          "Available": { "kind": "available" },
+          "Rank 4": { "kind": "rank", "rank": 4 },
+          "Exploration: synth_region": {
+            "kind": "exploration",
+            "regionId": "synth_region"
+          }
+        }
+      },
+      "dlcIds": { "column": "DLC", "separator": "," },
+      "awd": {
+        "column": "AWD",
+        "tokens": {
+          "Always": "always-on",
+          "Switchable": "switchable",
+          "Never": "unavailable"
+        }
+      },
+      "differentialLock": {
+        "column": "Diff Lock",
+        "tokens": {
+          "Always": "always-on",
+          "Switchable": "switchable",
+          "Never": "unavailable"
+        }
+      },
+      "bedKind": {
+        "column": "Bed",
+        "tokens": {
+          "Fixed": "fixed",
+          "Addon": "addon",
+          "None": "none"
+        }
+      },
+      "bedCargoSlots": { "column": "Bed Cargo Slots" },
+      "bedSocketId": { "column": "Bed Socket" }
+    }
+  },
+  "engines": {
+    "path": "engines.csv",
+    "sourceId": "synthetic-srnfo-engines",
+    "columns": {
+      "name": "Engine",
+      "torque": { "column": "Stock Torque", "unit": "unverified" }
+    }
+  },
+  "gearboxes": {
+    "path": "gearboxes.csv",
+    "sourceId": "synthetic-srnfo-gearboxes",
+    "columns": {
+      "name": "Gearbox",
+      "gears": { "column": "Gears" }
+    }
+  },
+  "wheels": {
+    "path": "wheels.csv",
+    "sourceId": "synthetic-srnfo-wheels",
+    "columns": {
+      "name": "Wheel",
+      "diameter": { "column": "Diameter", "unit": "inches" }
+    }
+  },
+  "addons": {
+    "path": "addons.csv",
+    "sourceId": "synthetic-srnfo-addons",
+    "columns": {
+      "name": "Add-on",
+      "cargoSlots": { "column": "Cargo Slots" },
+      "equipment": { "column": "Equipment", "separator": ";" }
+    }
+  }
+}

@@ -13,7 +13,7 @@ function boundary(files, forbidden) {
         {
           patterns: [
             {
-              group: forbidden,
+              group: forbidden.flatMap((name) => [name, `${name}/**`]),
               message:
                 'Follow docs/architecture.md package dependency boundaries.',
             },
@@ -22,7 +22,7 @@ function boundary(files, forbidden) {
                 '**/packages/**',
                 '**/apps/**',
                 '**/tools/**',
-                '@snowrunner/*/src/**',
+                '@snowrunner/*/**',
               ],
               message:
                 'Import workspace packages through their public exports.',

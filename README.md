@@ -8,8 +8,9 @@ and task-oriented Truck Finder. The first planned vertical slice covers **ANK MK
 This repository implements the foundation from [initialization ticket](https://trello.com/c/IpcOwF4R):
 a pnpm workspace, React app shell, shared packages, provenance and normalized entity schemas, tests,
 formatting, linting, strict type checking and CI. The preview shows planned product areas.
-**No game dataset, importer, compatibility engine, Finder, interactive Garage or build
-persistence is functional yet.** No licensed game assets are included.
+**No validated game dataset, compatibility engine, Finder, interactive Garage or build
+persistence is functional yet.** The offline CSV importer is implemented and tested
+with synthetic fixtures.
 
 ## Product
 
@@ -44,6 +45,7 @@ Run commands at repository root:
 | Command                    | Purpose                                                |
 | -------------------------- | ------------------------------------------------------ |
 | `pnpm dev`                 | Web development server                                 |
+| `pnpm import:srnfo`        | Run the offline SR!NFO CSV import pipeline             |
 | `pnpm lint`                | ESLint, including package import restrictions          |
 | `pnpm typecheck`           | Strict TypeScript checks for all five packages         |
 | `pnpm test`                | Vitest provenance and app integration checks           |
@@ -64,10 +66,11 @@ apps/web/              React + Vite composition and future app state/persistence
 packages/domain/       Pure domain types; future entities and deterministic rules
 packages/game-data/    Provenance validation; future normalized versioned catalog
 packages/ui/           Generic React presentation components
-tools/data-import/    Reserved offline ingestion boundary (no importer yet)
+tools/data-import/    Offline SR!NFO CSV import pipeline (local tool, no network)
 docs/architecture.md   Architecture decision and dependency rules
 docs/data.md           Source, versioning and unknown-data policy
 docs/product/mvp.md    Agreed product scope and first-slice definition of done
+fixtures/synthetic/    Committed synthetic import fixtures (not game data)
 ```
 
 Workspace packages expose TypeScript source directly to Vite/TypeScript; they are
@@ -76,34 +79,32 @@ private and require no separate publishing or build orchestration. See
 
 ## Data import status
 
-The catalog is empty. SR!NFO overview data and legally sourced game XML are proposed
-sources, subject to usage-rights verification. Runtime UI must consume reviewed,
+The catalog is empty. SR!NFO overview data and game XML are proposed sources.
+Runtime UI must consume reviewed,
 normalized artifacts, never live Google Sheets. Normalized entity contracts are documented in [entity contracts](docs/data/entity-contracts.md).
-Source adapters and truck compatibility rules remain future tasks. Read the [data policy](docs/data.md)
-before adding data or images. The [ANK MK38 source audit](docs/data/ank-mk38-source-audit.md)
-records source locations, evidence questions and separate readiness decisions:
-**Development Ready** with synthetic fixtures; **Distribution Approved** remains
-unmet for real data and imagery. Detailed research output stays in ignored local
-reports; the tracked audit explains how to reproduce the investigation.
+An offline SR!NFO CSV import pipeline is implemented in `tools/data-import`
+([README](tools/data-import/README.md)): it normalizes operator-supplied CSV
+exports into the versioned dataset contract with hash-verified provenance,
+explicit units, known/unknown states and a deterministic report, and is tested
+against committed synthetic fixtures only. XML import and truck compatibility
+rules remain future tasks. Read the [data policy](docs/data.md)
+before adding data or images. The [ANK MK38 source notes](docs/data/ank-mk38-source-audit.md)
+record source locations, evidence questions and the extraction handoff. Detailed
+research output stays in ignored local reports; the tracked notes explain how to
+reproduce the investigation.
 
 ## Local game-data research
 
-Research and public distribution use different gates. Agent development can
-continue with parsers, schemas and synthetic fixtures even when a proposed game's
-dataset is not approved for distribution. Research based on real source material
-must still respect its access and usage conditions.
-
-Any permitted locally derived material belongs in ignored `data/raw/`,
-`data/normalized/`, `data/reports/` or
+Research inputs and derived artifacts stay out of Git. Place locally obtained
+material in ignored `data/raw/`, `data/normalized/`, `data/reports/` or
 `packages/game-data/generated/`. These files must not be committed or imported
 into production browser bundles. `pnpm check:data-boundary` checks for forbidden
-tracked locations and archive extensions; it does not grant rights or guarantee
-a build contains no derived content. See [data policy](docs/data.md) and
+tracked locations and archive extensions. See [data policy](docs/data.md) and
 [agent instructions](AGENTS.md).
 
 The production catalog remains empty. This separation allows the compatibility
-engine and 2D Garage prototype to progress with synthetic fixtures while source
-rights and current game-version parity are checked independently.
+engine and 2D Garage prototype to progress with synthetic fixtures while real
+game data is imported and validated independently.
 
 ## Contribution workflow
 
@@ -112,8 +113,8 @@ rights and current game-version parity are checked independently.
    architectural decisions in docs.
 3. Add meaningful tests for behavior and regressions. Never invent game facts to
    make a test or UI look complete.
-4. Run `pnpm check` and review the diff for secrets and unlicensed assets.
+4. Run `pnpm check` and review the diff for secrets.
 5. Open a pull request describing behavior, validation and known limitations.
 
 The public repository is hosted on [GitHub](https://github.com/zmzm/snowrunner-companion),
-with `main` as the default branch. No open-source license has been selected yet.
+with `main` as the default branch.
