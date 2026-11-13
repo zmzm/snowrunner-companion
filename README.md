@@ -6,7 +6,7 @@ and task-oriented Truck Finder. The first planned vertical slice covers **ANK MK
 ## Current status
 
 This repository implements the foundation from [initialization ticket](https://trello.com/c/IpcOwF4R):
-a pnpm workspace, React app shell, shared packages, a provenance schema, tests,
+a pnpm workspace, React app shell, shared packages, provenance and normalized entity schemas, tests,
 formatting, linting, strict type checking and CI. The preview shows planned product areas.
 **No game dataset, importer, compatibility engine, Finder, interactive Garage or build
 persistence is functional yet.** No licensed game assets are included.
@@ -78,8 +78,8 @@ private and require no separate publishing or build orchestration. See
 
 The catalog is empty. SR!NFO overview data and legally sourced game XML are proposed
 sources, subject to usage-rights verification. Runtime UI must consume reviewed,
-normalized artifacts, never live Google Sheets. Source schemas, XML adapters and
-truck compatibility rules remain future tasks. Read the [data policy](docs/data.md)
+normalized artifacts, never live Google Sheets. Normalized entity contracts are documented in [entity contracts](docs/data/entity-contracts.md).
+Source adapters and truck compatibility rules remain future tasks. Read the [data policy](docs/data.md)
 before adding data or images. The [ANK MK38 source audit](docs/data/ank-mk38-source-audit.md)
 records source locations, evidence questions and separate readiness decisions:
 **Development Ready** with synthetic fixtures; **Distribution Approved** remains

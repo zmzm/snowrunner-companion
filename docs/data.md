@@ -3,8 +3,9 @@
 ## Current state
 
 No game data has been imported. `catalogStatus` reports schema version 1, no dataset
-version, zero truck IDs and no sources. The provenance Zod schema validates metadata
-only; it is not a truck schema, importer or compatibility engine.
+version, zero truck IDs and no sources. The provenance Zod schema validates metadata. Separate [entity schemas](data/entity-contracts.md)
+validate normalized trucks, components, builds, requirements and versioned datasets.
+No importer or compatibility engine is implemented.
 
 ## Source audits
 
@@ -92,6 +93,6 @@ into zero, false, a guessed stat or presumed compatibility. Present unknowns cle
 and avoid declaring a build feasible when required constraints are unresolved.
 Distinguish trailer cargo capacity from on-truck cargo capacity.
 
-Provenance is not yet attached to actual truck facts because no truck entities have
+Entity contracts attach provenance to facts, but no real truck entities have
 been imported. Future ANK MK38 rules must verify the fixed-bed constraints against
 reviewed sources before representing feasible configurations.
