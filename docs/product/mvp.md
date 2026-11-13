@@ -38,10 +38,10 @@ feasibility and distinguish on-truck capacity from trailer capacity.
 - Pure deterministic compatibility rules and recommendations: hard feasibility
   filters followed by explainable prioritization.
 - Zustand for current build state and IndexedDB for local persistence.
-- SR!NFO overview specs and legally sourced game XML for component/socket constraints,
+- SR!NFO overview specs and game XML for component/socket constraints,
   with provenance, unknowns and conflicts. See [data policy](../data.md).
 - Dark industrial visual direction; desktop-friendly Garage and mobile-friendly
-  reference/Finder. Component changes need not change the truck image. Respect asset rights.
+  reference/Finder. Component changes need not change the truck image.
 
 The foundation only reserves these seams. Entity details, source adapters, persistence
 schema/migrations, ranking policy and exact layout require implementation validation.

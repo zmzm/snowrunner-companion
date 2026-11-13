@@ -11,7 +11,7 @@ export const provenanceSchema = z.object({
 });
 export type Provenance = z.infer<typeof provenanceSchema>;
 
-/** Empty until a licensed, normalized dataset is imported and reviewed. */
+/** Empty until a normalized dataset is imported and reviewed. */
 export interface CatalogStatus {
   schemaVersion: 1;
   datasetVersion: string | null;
@@ -36,7 +36,7 @@ export {
   truckSocketSchema,
 } from './entities';
 
-/** Ingestion contract only; successful parsing does not grant distribution rights. */
+/** Ingestion contract for normalized datasets. */
 export const datasetSchema = z
   .strictObject({
     schemaVersion: z.literal(1),
