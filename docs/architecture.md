@@ -27,7 +27,8 @@ tools/data-import ────> packages/game-data
 
 - `domain`: framework-free entities and pure deterministic compatibility and
   recommendation rules. No data package, React, DOM, network or filesystem access.
-  Currently only an explicit sourced-value type and truck identifier exist.
+  Exports sourced values and normalized Truck, Component, TruckSocket, TruckBuild,
+  Availability and Requirement contracts. Runtime validation lives in game-data.
 - `game-data`: source metadata validation and future normalized, versioned artifacts.
   Depends on domain and Zod. Does not fetch external data at runtime.
 - `ui`: generic presentation, depends on React only; no truck rules or catalog access.
@@ -55,7 +56,7 @@ React server-side to verify package integration; it is not browser interaction c
 
 This keeps rules independently testable and datasets reproducible without adding
 build orchestration. Shared source exports suit this private app but would need a
-compiled export strategy before publishing packages. Truck/Component/Socket/Build/
-Requirement schemas, deterministic rules, Zustand and IndexedDB integration are
-agreed future work, not implemented by the foundation ticket. Follow the
+compiled export strategy before publishing packages. Truck/Component/Socket/Build/Requirement contracts and game-data Zod schemas now
+exist; see [entity contracts](data/entity-contracts.md). Deterministic compatibility
+rules, Zustand and IndexedDB integration remain future work. Follow the
 [data policy](data.md) for source/version boundaries.

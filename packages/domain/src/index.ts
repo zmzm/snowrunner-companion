@@ -4,5 +4,18 @@ export type SourcedValue<T> =
   | { status: 'unknown'; reason: string }
   | { status: 'conflict'; reason: string; sourceIds: readonly string[] };
 
-/** Initial identifiers only; entity schemas and compatibility rules are future work. */
+/** Stable normalized identifier; no source-specific encoding is required. */
 export type TruckId = string;
+
+export type {
+  Availability,
+  CargoBed,
+  Component,
+  ComponentKind,
+  DrivetrainMode,
+  Requirement,
+  Truck,
+  TruckBuild,
+  TruckSocket,
+  Unlock,
+} from './entities';
