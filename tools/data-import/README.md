@@ -9,7 +9,9 @@ Implemented: the **SR!NFO CSV import pipeline** (`src/cli.ts`, run via
 Zod-validated manifest, verifies source hashes, normalizes rows into
 `Truck`/`Component` entities with `known`/`unknown`/`conflict` provenance
 states, validates the assembled dataset against `datasetSchema` and emits
-deterministic outputs. XML parsing remains future work.
+deterministic outputs. An offline XML relationship spike is also available via
+`pnpm import:xml`; see [its input contract and limitations](../../docs/data/xml-extraction.md).
+It emits development evidence only, not production entities.
 
 ## Running an import
 

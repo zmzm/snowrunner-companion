@@ -19,7 +19,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "check": "pnpm format:check && pnpm check:data-boundary && pnpm lint && pnpm typecheck && pnpm test && pnpm build",
-    "check:data-boundary": "node tools/check-data-boundary.mjs"
+    "check:data-boundary": "node tools/check-data-boundary.mjs",
+    "import:xml": "tsx tools/data-import/src/xml-cli.ts"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
