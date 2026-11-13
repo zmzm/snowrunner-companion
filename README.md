@@ -46,6 +46,7 @@ Run commands at repository root:
 | -------------------------- | ------------------------------------------------------ |
 | `pnpm dev`                 | Web development server                                 |
 | `pnpm import:srnfo`        | Run the offline SR!NFO CSV import pipeline             |
+| `pnpm import:xml`          | Run the offline development XML relationship spike     |
 | `pnpm lint`                | ESLint, including package import restrictions          |
 | `pnpm typecheck`           | Strict TypeScript checks for all five packages         |
 | `pnpm test`                | Vitest provenance and app integration checks           |
@@ -86,8 +87,9 @@ An offline SR!NFO CSV import pipeline is implemented in `tools/data-import`
 ([README](tools/data-import/README.md)): it normalizes operator-supplied CSV
 exports into the versioned dataset contract with hash-verified provenance,
 explicit units, known/unknown states and a deterministic report, and is tested
-against committed synthetic fixtures only. XML import and truck compatibility
-rules remain future tasks. Read the [data policy](docs/data.md)
+against committed synthetic fixtures only. An [offline XML relationship spike](docs/data/xml-extraction.md) extracts
+development evidence from supplied fragments; full XML normalization and truck
+compatibility rules remain future tasks. Read the [data policy](docs/data.md)
 before adding data or images. The [ANK MK38 source notes](docs/data/ank-mk38-source-audit.md)
 record source locations, evidence questions and the extraction handoff. Detailed
 research output stays in ignored local reports; the tracked notes explain how to

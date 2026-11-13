@@ -10,7 +10,9 @@ An offline SR!NFO CSV import pipeline exists in `tools/data-import`
 CSV exports with hash-verified provenance into the dataset contract, tested only
 against committed synthetic fixtures. It performs no network access, writes only to
 ignored `data/normalized/` and `data/reports/`, and does not change the empty
-production catalog. No compatibility engine is implemented.
+production catalog. An [offline XML relationship spike](data/xml-extraction.md) is tested on synthetic
+fragments and emits local development evidence with explicit resolution limits.
+No compatibility engine is implemented.
 
 ## Source notes
 
