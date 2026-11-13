@@ -1,0 +1,4 @@
+XML Name,Display Name,Unlock,DLC,AWD,Diff Lock,Bed,Bed Cargo Slots,Bed Socket,Price,Mass,Fuel
+synthetic_mk38,"SYNTH MK38 (fixture, not game data)",Available,,Always,Always,Fixed,2,,1000,5000,80
+synthetic_hauler,SYNTH Hauler (fixture),Rank 4,Synth DLC,Switchable,Always,Addon,,frame_addon,2000,6000,120
+synthetic_scout,SYNTH Scout (fixture),Exploration: synth_region,,Never,Always,,,300,2200,60

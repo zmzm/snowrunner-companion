@@ -35,7 +35,7 @@ tools/data-import ────> packages/game-data
 - `web`: composition, navigation and future Zustand state/IndexedDB persistence;
   passes domain decisions into presentation. No importer in the browser bundle.
 - `data-import`: offline source parsing, normalization, validation and future artifact
-  generation. Not a running service. No importer or CLI is implemented yet.
+  generation. Includes a local SR!NFO CSV importer and CLI; no running service.
 
 ESLint rejects forbidden workspace dependencies, selected forbidden runtime imports
 and cross-folder source imports. Package manifests use `workspace:*`; package exports

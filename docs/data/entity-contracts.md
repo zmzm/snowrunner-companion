@@ -30,9 +30,8 @@ Existing provenance validation is preserved.
 
 These schemas validate structure and provenance references. They do not resolve
 component/socket references, prove a default is installable, evaluate suspension
-fitment, check build feasibility, enforce unlocks against a player profile, or
-approve distribution. Those checks belong to later catalog resolution and domain
-rules. Build parsing alone must never be presented as compatibility approval.
+fitment, check build feasibility or enforce unlocks against a player profile.
+Those checks belong to later catalog resolution and domain rules.
 
 ## Acceptance evidence
 
@@ -43,7 +42,5 @@ add-on beds, unknowns/conflicts, availability, wheel prerequisites, malformed va
 with error paths, duplicate selections, versions, provenance and cargo locations.
 Tests do not require local research inputs or change the empty production catalog.
 
-Development Ready: synthetic contract implementation. Distribution Approved for
-real game data: still unmet, as recorded in the [source audit](ank-mk38-source-audit.md).
 No importer, rules engine, UI, persistence implementation or game data is supplied
 by this ticket.
