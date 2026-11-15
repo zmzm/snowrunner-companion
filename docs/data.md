@@ -12,7 +12,8 @@ against committed synthetic fixtures. It performs no network access, writes only
 ignored `data/normalized/` and `data/reports/`, and does not change the empty
 production catalog. An [offline XML relationship spike](data/xml-extraction.md) is tested on synthetic
 fragments and emits local development evidence with explicit resolution limits.
-No compatibility engine is implemented.
+A pure [build validator](data/build-validation.md) is implemented with synthetic coverage;
+actual game compatibility remains unverified.
 
 ## Source notes
 

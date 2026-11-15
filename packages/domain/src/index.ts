@@ -19,3 +19,13 @@ export type {
   TruckSocket,
   Unlock,
 } from './entities';
+
+export { validateBuild } from './compatibility';
+export type {
+  BuildValidation,
+  CompatibilityCatalog,
+  CompatibilityIssue,
+  CompatibilityRule,
+  CompatibilityStatus,
+  PlayerAccess,
+} from './compatibility';

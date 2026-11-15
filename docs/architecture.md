@@ -57,6 +57,6 @@ React server-side to verify package integration; it is not browser interaction c
 This keeps rules independently testable and datasets reproducible without adding
 build orchestration. Shared source exports suit this private app but would need a
 compiled export strategy before publishing packages. Truck/Component/Socket/Build/Requirement contracts and game-data Zod schemas now
-exist; see [entity contracts](data/entity-contracts.md). Deterministic compatibility
-rules, Zustand and IndexedDB integration remain future work. Follow the
+exist; see [entity contracts](data/entity-contracts.md). Deterministic [compatibility rules](data/build-validation.md) now exist with synthetic
+coverage; reviewed game data, Zustand and IndexedDB integration remain future work. Follow the
 [data policy](data.md) for source/version boundaries.
