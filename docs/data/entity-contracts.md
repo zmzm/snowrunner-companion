@@ -31,7 +31,7 @@ Existing provenance validation is preserved.
 These schemas validate structure and provenance references. They do not resolve
 component/socket references, prove a default is installable, evaluate suspension
 fitment, check build feasibility or enforce unlocks against a player profile.
-Those checks belong to later catalog resolution and domain rules.
+Those checks belong to catalog resolution and [domain build validation](build-validation.md).
 
 ## Acceptance evidence
 
@@ -42,5 +42,6 @@ add-on beds, unknowns/conflicts, availability, wheel prerequisites, malformed va
 with error paths, duplicate selections, versions, provenance and cargo locations.
 Tests do not require local research inputs or change the empty production catalog.
 
-No importer, rules engine, UI, persistence implementation or game data is supplied
-by this ticket.
+This entity ticket supplied no importer, rules engine, UI, persistence or game data.
+The subsequent [build validator](build-validation.md) adds sourced catalog restriction
+lists and deterministic validation without changing the empty production catalog.

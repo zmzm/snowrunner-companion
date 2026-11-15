@@ -8,9 +8,11 @@ and task-oriented Truck Finder. The first planned vertical slice covers **ANK MK
 This repository implements the foundation from [initialization ticket](https://trello.com/c/IpcOwF4R):
 a pnpm workspace, React app shell, shared packages, provenance and normalized entity schemas, tests,
 formatting, linting, strict type checking and CI. The preview shows planned product areas.
-**No validated game dataset, compatibility engine, Finder, interactive Garage or build
+**No validated game dataset, Finder, interactive Garage or build
 persistence is functional yet.** The offline CSV importer is implemented and tested
-with synthetic fixtures.
+with synthetic fixtures. A pure [build compatibility validator](docs/data/build-validation.md)
+is implemented with synthetic tests and private historical-source integration probes;
+real ANK MK38 compatibility remains unverified.
 
 ## Product
 
@@ -88,8 +90,7 @@ An offline SR!NFO CSV import pipeline is implemented in `tools/data-import`
 exports into the versioned dataset contract with hash-verified provenance,
 explicit units, known/unknown states and a deterministic report, and is tested
 against committed synthetic fixtures only. An [offline XML relationship spike](docs/data/xml-extraction.md) extracts
-development evidence from supplied fragments; full XML normalization and truck
-compatibility rules remain future tasks. Read the [data policy](docs/data.md)
+development evidence from supplied fragments; full XML normalization and reviewed game compatibility data remain future tasks. Read the [data policy](docs/data.md)
 before adding data or images. The [ANK MK38 source notes](docs/data/ank-mk38-source-audit.md)
 record source locations, evidence questions and the extraction handoff. Detailed
 research output stays in ignored local reports; the tracked notes explain how to

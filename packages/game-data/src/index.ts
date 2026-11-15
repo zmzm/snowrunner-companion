@@ -1,6 +1,14 @@
 import { z } from 'zod';
 import type { TruckId } from '@snowrunner/domain';
 import { componentSchema, truckSchema } from './entities';
+import {
+  ruleCompletenessSchema,
+  compatibilityRulesSchema,
+} from './compatibility';
+export {
+  compatibilityRuleSchema,
+  compatibilityRulesSchema,
+} from './compatibility';
 
 export const provenanceSchema = z.object({
   sourceId: z.string().trim().min(1),
@@ -44,6 +52,8 @@ export const datasetSchema = z
     sources: z.array(provenanceSchema).min(1),
     trucks: z.array(truckSchema),
     components: z.array(componentSchema),
+    rulesByTruck: compatibilityRulesSchema.optional(),
+    ruleCompletenessByTruck: ruleCompletenessSchema.optional(),
   })
   .superRefine((dataset, context) => {
     for (const key of ['sources', 'trucks', 'components'] satisfies readonly (
@@ -97,5 +107,12 @@ export const datasetSchema = z
     }
     checkSources(dataset.trucks, ['trucks']);
     checkSources(dataset.components, ['components']);
+    checkSources(dataset.rulesByTruck, ['rulesByTruck']);
+    checkSources(dataset.ruleCompletenessByTruck, ['ruleCompletenessByTruck']);
   });
 export type Dataset = z.infer<typeof datasetSchema>;
+
+/** Required rule completeness evidence for compatibility evaluation. */
+export const compatibilityCatalogSchema = datasetSchema.safeExtend({
+  rulesByTruck: compatibilityRulesSchema,
+});

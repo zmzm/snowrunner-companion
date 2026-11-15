@@ -99,3 +99,26 @@ ANK MK38 relationship normalization has not been validated. Production publicati
 remains gated on rights, source-version verification, complete dependency
 resolution, normalized entity validation and review. The production catalog
 stays empty.
+
+## Scoped semantic resolver
+
+`resolveXmlDocument` and `xmlReferenceKey` are public importer exports for local
+normalization tools. Optional subtree omissions isolate compatibility fields from
+visual XML; opt-in identity keys allow source adapters to match repeated children
+where their identities are established. Missing identity keys are reported.
+They accept supplied XML documents and explicit per-file
+include/parent mappings. They resolve scoped attribute templates, transitive
+includes and unambiguous child hierarchies, retain file/line origins, and detect
+cycles and bounded expansion. They support `_noinherit` resets and `_inheritRemove` removals when the
+inherited match is unambiguous. They report duplicate templates, ambiguous
+repeated children/removals, missing references and unsupported directives. Callers must preserve
+these issues as unresolved evidence rather than treating the projection as the
+game loader's authoritative result. This additional resolver does not change the
+spike CLI's output or its deliberately incomplete status.
+
+Behavior follows the official [template override](https://expeditions-guides.saber.games/truck_modding/general_info/xml_structure/templates/overrides_for_attribute_values/),
+[hierarchy extension](https://expeditions-guides.saber.games/truck_modding/general_info/xml_structure/templates/extension_of_hierarchy/)
+and [inheritance](https://expeditions-guides.saber.games/truck_modding/general_info/xml_structure/inheritance/)
+documentation only where the match is unambiguous. Reset/removal behavior follows the official
+[removal documentation](https://expeditions-guides.saber.games/truck_modding/general_info/xml_structure/templates/removal_of_inherited_attributes_and_tags/)
+for unambiguous matches; other directives remain unresolved. Synthetic resolver tests require no raw files.
