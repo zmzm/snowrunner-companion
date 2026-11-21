@@ -72,3 +72,10 @@ Distinguish trailer cargo capacity from on-truck cargo capacity.
 Entity contracts attach provenance to facts, but no real truck entities have
 been imported. Future ANK MK38 rules must verify the fixed-bed constraints against
 source evidence before representing feasible configurations.
+
+## Development integration
+
+The [offline integration workflow](data/development-catalog.md) joins CSV facts
+with explicitly reviewed XML projections, retaining conflicts and unresolved
+relationships. Its development envelope is not distribution approval. No real
+ANK MK38 projection is confirmed or shipped.

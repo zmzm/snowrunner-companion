@@ -9,8 +9,8 @@ This repository implements the foundation from [initialization ticket](https://t
 a pnpm workspace, React app shell, shared packages, provenance and normalized entity schemas, tests,
 formatting, linting, strict type checking and CI. The preview shows planned product areas.
 **No validated game dataset, Finder, interactive Garage or build
-persistence is functional yet.** The offline CSV importer is implemented and tested
-with synthetic fixtures. A pure [build compatibility validator](docs/data/build-validation.md)
+persistence is functional yet.** The offline CSV importer and [development catalog integration](docs/data/development-catalog.md)
+are implemented and tested with synthetic fixtures. A pure [build compatibility validator](docs/data/build-validation.md)
 is implemented with synthetic tests and private historical-source integration probes;
 real ANK MK38 compatibility remains unverified.
 

@@ -10,3 +10,9 @@ export type {
   XmlResolutionIssue,
   XmlResolverInput,
 } from './xml-resolve';
+export {
+  integrateDevelopmentCatalog,
+  integrationReviewSchema,
+} from './integrate';
+
+export type { DevelopmentCatalog } from './integrate';
