@@ -72,7 +72,7 @@ conflict, and both candidates are retained in report.conflicts. Price has no dom
 field: record values and source IDs in review.observations, never discard a price
 conflict or reinterpret price as a performance stat. The CSV report retains unmapped
 columns. Dangling fitment/default/exclusion references invalidate the known socket
-inventory; dangling wheel dependencies become unknown; dangling rules become unknown.
+inventory; dangling wheel dependencies become unknown; unresolved rules are diagnosed and withheld while resolved rules remain available with unknown completeness.
 
 Compatibility consumers can pass `{ ...result.dataset, rulesByTruck:
 result.dataset.rulesByTruck ?? {} }` to validateBuild. Restriction completeness
@@ -82,12 +82,90 @@ UI or browser loader. Never import the local result into apps/web or publish it.
 
 ## ANK MK38 evidence status
 
-No actual ANK MK38 projection is confirmed by this implementation. The committed
-end-to-end test proves only an authored synthetic ANK-shaped fixed-bed scenario.
-Real engines, gearboxes, suspension, wheels, winches, addons, complete sockets,
-defaults, exclusions and required-addon semantics remain unconfirmed here.
-Actual price disagreements and other inconsistencies must be recorded per source
-in a local review/report; none are asserted without that evidence. Historical XML
+The committed end-to-end tests use authored synthetic scenarios across all six
+component categories. Optional private verification also maps real workbook and
+historical XML inputs. Its reviewed relationships and source disagreements are
+recorded in ignored local reports, not shipped as a validated production dataset.
+Partial source coverage does not establish complete or current-game compatibility. Historical XML
 versions do not establish current-game behavior, DLC precedence or exhaustive
 restriction coverage. Development readiness and distribution approval are separate;
 the production catalog remains empty.
+
+## Repeatable file workflow
+
+Run `pnpm integrate:catalog -- <local-config.json>` from the repository root.
+The configuration is a strict JSON object:
+
+```json
+{
+  "csvManifest": "../raw/example/csv-manifest.json",
+  "xmlManifest": "xml-manifest.json",
+  "xmlRoot": "../raw/example/xml",
+  "xmlResolution": "xml-resolution.json",
+  "review": "review.json",
+  "outputName": "example-development-run-1"
+}
+```
+
+Configuration paths resolve relative to the configuration file. CSV source paths
+resolve relative to their manifest; XML source paths resolve relative to xmlRoot
+(or the XML manifest directory when omitted). Manifest source paths cannot escape
+those directories. Outputs are fixed to `data/normalized/<outputName>.json` and
+`data/reports/<outputName>.json`; an existing output or report prevents the run.
+The catalog is the complete development envelope; the separate report contains
+validation evidence. Console output contains only aggregate projection counts.
+No network access is performed. No lockfile or dependencies change for this command.
+
+xmlResolution is optional. Without it, the original attribute-only spike governs
+admission. With it, `extractResolvedXml` hash-checks original files and applies the
+existing scoped resolver. Configuration fields are entries (an ordered list of
+supplied XML paths), references (a record keyed by xmlReferenceKey), omitTags,
+childIdentityAttributes, and rationale. Every entry/reference must be hash-verified.
+The ordering determines review relationship indexes. Never reuse a review against
+a changed graph without inspecting it again. The source version fingerprints the
+manifest and resolution settings. Original spike issues remain under rawIssues;
+scoped resolver issues govern admission. Omitted subtrees and selected DLC paths
+are explicit review decisions, not inferred game-loader semantics.
+
+A report contains projections.applied and projections.withheld. Schema validation
+alone is insufficient: verify that the intended facts were applied, canonical IDs
+resolve, and completeness remains explicit. Resolved restrictions are retained
+when another restriction references a missing component; diagnostics retain the
+gap and rule completeness remains unknown. A declared default can remain known
+while the exhaustive fitment list is unknown. This does not establish permission
+for arbitrary other components.
+
+## Private comprehensive verification
+
+Optional local work reconciles all six component categories against the available
+historical snapshot and downloaded workbook. Source-specific inventories, selected
+CSV record numbers, per-file hashes, identity mappings, numeric comparisons,
+quarantined files, default candidates and build-validation results belong only in
+ignored reports. No source-derived fixture or development catalog is committed.
+
+The local comprehensive report distinguishes these outcomes:
+
+- Exact XML identity/localization matches to a CSV row, including family context
+  and forward-gear ratios where display names are reused.
+- XML-only facts for which the workbook has no equivalent record.
+- Tire-level CSV evidence that maps to multiple scale/tire/rim assemblies. A tire
+  table is not a complete wheel assembly and cannot establish a default scale.
+- Numeric agreement without verified units, retained as unknown normalized stats.
+- Source disagreement, missing references, malformed input and unsupported domain
+  semantics, retained rather than overwritten or silently repaired.
+
+Verification includes mechanical candidates, wheel/suspension pairs, explicit
+restriction cases, deterministic output and CLI replay. Matrix assertions verify
+that the validator follows mapped relations; they do not independently prove that
+our source interpretation matches the running game. Official interpretation aids:
+[SuspensionSocket clearance](https://expeditions-guides.saber.games/truck_modding/tags_and_attributes_of_trucks/truck/truckdata/suspensionsocket/),
+[wheel assemblies and scaling](https://expeditions-guides.saber.games/truck_modding/tags_and_attributes_of_trucks/truck/truckdata/compatiblewheels/),
+[factory wheel identifiers](https://expeditions-guides.saber.games/truck_modding/tags_and_attributes_of_trucks/truck/truckdata/wheels/),
+and [winch ignition requirements](https://expeditions-guides.saber.games/truck_modding/tags_and_attributes_of_trucks/winchvariants/winch/).
+
+No game installation is required for this historical-source research. Current-game
+equivalence, exhaustive DLC/availability coverage and distribution approval remain
+separate assertions. Access conjunctions, an exhaustive equipment-capability
+vocabulary and ambiguous stock configurations cannot be guessed to obtain a
+positive verdict. These limits do not invalidate independently supported negative
+restriction results.

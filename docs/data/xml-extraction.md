@@ -122,3 +122,12 @@ and [inheritance](https://expeditions-guides.saber.games/truck_modding/general_i
 documentation only where the match is unambiguous. Reset/removal behavior follows the official
 [removal documentation](https://expeditions-guides.saber.games/truck_modding/general_info/xml_structure/templates/removal_of_inherited_attributes_and_tags/)
 for unambiguous matches; other directives remain unresolved. Synthetic resolver tests require no raw files.
+
+## Integration evidence adapter
+
+`extractResolvedXml` exposes the scoped resolver's flattened evidence and origins
+for the reviewed development integration workflow. It verifies manifest hashes
+before resolution, retains the raw spike's issues separately, and preserves scoped
+resolution issues as blockers to projection admission. See
+[development catalog integration](development-catalog.md) for the configuration,
+review contract, output boundaries and current limitations.

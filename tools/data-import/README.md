@@ -126,3 +126,14 @@ classes. CSV helpers, manifest mappings and normalization internals are private.
 
 Normalization diagnostics do not claim dataset validity. Only the completed
 import report includes the dataset validation outcome.
+
+## Reviewed development integration
+
+`pnpm integrate:catalog -- <local-config.json>` combines existing CSV manifests
+and hash-verified XML with explicit normalized review projections. It supports
+the scoped semantic resolver, preserves resolved restrictions when another
+reference remains unresolved, and reports applied/withheld projection counts.
+It writes exclusively to ignored development directories and refuses to overwrite
+an earlier run. See the [configuration and verification workflow](../../docs/data/development-catalog.md).
+Synthetic regressions cover all six component kinds and interacting constraints;
+optional real-source runs are private research and never required by CI.

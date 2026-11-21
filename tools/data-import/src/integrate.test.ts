@@ -212,6 +212,204 @@ describe('development catalog integration with synthetic evidence', () => {
     );
     expect(result.report.diagnostics).toHaveLength(2);
   });
+  it('keeps an evidenced default when the complete fitment list is unknown', () => {
+    const input = scenario();
+    const review = integrationReviewSchema.parse(input.review);
+    const truck = review.trucks[0]?.entity;
+    if (!truck || truck.sockets.status !== 'known')
+      throw new Error('Missing synthetic sockets');
+    const socket = truck.sockets.value[0];
+    if (!socket) throw new Error('Missing synthetic socket');
+    socket.compatibleComponentIds = {
+      status: 'unknown',
+      reason: 'Candidate scan is incomplete',
+    };
+    const result = integrateDevelopmentCatalog({ ...input, review });
+    const sockets = result.dataset.trucks[0]?.sockets;
+    expect(sockets?.status).toBe('known');
+    if (sockets?.status === 'known')
+      expect(sockets.value[0]?.defaultComponentId.status).toBe('known');
+    expect(result.report.diagnostics).toEqual([]);
+  });
+  it('retains resolved restrictions when another restriction has a dangling reference', () => {
+    const input = scenario();
+    const review = integrationReviewSchema.parse(input.review);
+    const evidence = {
+      relationshipIndexes: [0],
+      rationale: 'Authored synthetic restrictions',
+    };
+    review.rules.push(
+      {
+        rule: { kind: 'forbidden', componentId: 'engine:synth-v8-fixture' },
+        evidence,
+      },
+      {
+        rule: {
+          kind: 'requires',
+          componentId: 'engine:synth-v8-fixture',
+          requiredComponentId: 'missing',
+        },
+        evidence,
+      },
+    );
+    const result = integrateDevelopmentCatalog({ ...input, review });
+    const restrictions = result.dataset.rulesByTruck?.['synthetic-mk38'];
+    expect(restrictions).toMatchObject({
+      status: 'known',
+      value: [{ kind: 'forbidden' }],
+    });
+    expect(
+      result.dataset.ruleCompletenessByTruck?.['synthetic-mk38']?.status,
+    ).toBe('unknown');
+    expect(result.report.diagnostics).toHaveLength(1);
+    expect(result.report.projections).toEqual({ applied: 2, withheld: 1 });
+  });
+  it('hands all six component categories and interacting restrictions to the validator', () => {
+    const input = scenario();
+    const review = integrationReviewSchema.parse(input.review);
+    const known = <T>(value: T) => ({
+      status: 'known' as const,
+      value,
+      sourceId: 'synthetic-xml',
+    });
+    const unknown = {
+      status: 'unknown' as const,
+      reason: 'Synthetic access evidence is incomplete',
+    };
+    const availability = { unlock: unknown, dlcIds: unknown };
+    const evidence = {
+      relationshipIndexes: [1],
+      rationale: 'Authored synthetic reductions across all categories',
+    };
+    review.components.push(
+      {
+        entity: {
+          id: 'test-gearbox',
+          name: 'Synthetic gearbox',
+          availability,
+          kind: 'gearbox',
+          gears: known(4),
+        },
+        evidence,
+      },
+      {
+        entity: {
+          id: 'test-suspension',
+          name: 'Synthetic suspension',
+          availability,
+          kind: 'suspension',
+          liftMm: known(20),
+        },
+        evidence,
+      },
+      {
+        entity: {
+          id: 'test-wheels',
+          name: 'Synthetic wheels',
+          availability,
+          kind: 'wheels',
+          diameterInches: known(30),
+          requiredSuspensionIds: known(['test-suspension']),
+        },
+        evidence,
+      },
+      {
+        entity: {
+          id: 'test-winch',
+          name: 'Synthetic winch',
+          availability,
+          kind: 'winch',
+          autonomous: known(false),
+        },
+        evidence,
+      },
+      {
+        entity: {
+          id: 'test-addon',
+          name: 'Synthetic addon',
+          availability,
+          kind: 'addon',
+          cargoSlots: known(1),
+          equipment: known(['test-crane']),
+        },
+        evidence,
+      },
+    );
+    const truck = review.trucks[0]?.entity;
+    if (!truck) throw new Error('Missing synthetic truck');
+    truck.sockets = known([
+      {
+        id: 'engine',
+        kind: 'engine',
+        compatibleComponentIds: known(['engine:synth-v8-fixture']),
+        defaultComponentId: known('engine:synth-v8-fixture'),
+        excludedComponentIds: known([]),
+      },
+      ...review.components.map(({ entity }) => ({
+        id: entity.kind,
+        kind: entity.kind,
+        compatibleComponentIds: known([entity.id]),
+        defaultComponentId: known(entity.id),
+        excludedComponentIds: known([]),
+      })),
+    ]);
+    review.rules.push(
+      {
+        rule: {
+          kind: 'requires',
+          componentId: 'test-addon',
+          requiredComponentId: 'test-gearbox',
+        },
+        evidence,
+      },
+      {
+        rule: {
+          kind: 'excludes',
+          componentId: 'test-addon',
+          excludedComponentId: 'test-winch',
+        },
+        evidence,
+      },
+    );
+    const result = integrateDevelopmentCatalog({ ...input, review });
+    const catalog = {
+      ...result.dataset,
+      rulesByTruck: result.dataset.rulesByTruck ?? {},
+    };
+    const build = {
+      schemaVersion: 1 as const,
+      datasetVersion: catalog.datasetVersion,
+      id: 'synthetic-all-kinds',
+      name: 'Synthetic all kinds',
+      truckId: 'synthetic-mk38',
+      selections: [
+        { socketId: 'wheels', componentId: 'test-wheels' },
+        { socketId: 'addon', componentId: 'test-addon' },
+        { socketId: 'winch', componentId: 'test-winch' },
+      ],
+    };
+    expect(validateBuild(build, catalog).violations.map((v) => v.code)).toEqual(
+      expect.arrayContaining([
+        'wheel-suspension',
+        'missing-dependency',
+        'exclusive-components',
+      ]),
+    );
+    const resolved = validateBuild(
+      {
+        ...build,
+        selections: [
+          { socketId: 'wheels', componentId: 'test-wheels' },
+          { socketId: 'suspension', componentId: 'test-suspension' },
+          { socketId: 'addon', componentId: 'test-addon' },
+          { socketId: 'gearbox', componentId: 'test-gearbox' },
+        ],
+      },
+      catalog,
+    );
+    expect(resolved.violations).toEqual([]);
+    expect(resolved.status).toBe('unknown');
+  });
   it('rejects malformed projections, evidence indexes, and tampered source bytes', () => {
     const input = scenario();
     expect(() =>

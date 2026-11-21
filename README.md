@@ -10,7 +10,7 @@ a pnpm workspace, React app shell, shared packages, provenance and normalized en
 formatting, linting, strict type checking and CI. The preview shows planned product areas.
 **No validated game dataset, Finder, interactive Garage or build
 persistence is functional yet.** The offline CSV importer and [development catalog integration](docs/data/development-catalog.md)
-are implemented and tested with synthetic fixtures. A pure [build compatibility validator](docs/data/build-validation.md)
+are implemented with synthetic regression coverage and optional private real-source verification. A pure [build compatibility validator](docs/data/build-validation.md)
 is implemented with synthetic tests and private historical-source integration probes;
 real ANK MK38 compatibility remains unverified.
 
@@ -44,21 +44,22 @@ Open the local URL printed by Vite (normally http://localhost:5173).
 
 Run commands at repository root:
 
-| Command                    | Purpose                                                |
-| -------------------------- | ------------------------------------------------------ |
-| `pnpm dev`                 | Web development server                                 |
-| `pnpm import:srnfo`        | Run the offline SR!NFO CSV import pipeline             |
-| `pnpm import:xml`          | Run the offline development XML relationship spike     |
-| `pnpm lint`                | ESLint, including package import restrictions          |
-| `pnpm typecheck`           | Strict TypeScript checks for all five packages         |
-| `pnpm test`                | Vitest provenance and app integration checks           |
-| `pnpm test:watch`          | Watch tests during development                         |
-| `pnpm build`               | Typecheck workspace and build app into `apps/web/dist` |
-| `pnpm preview`             | Serve the production build locally                     |
-| `pnpm format`              | Format source and docs                                 |
-| `pnpm format:check`        | Verify formatting                                      |
-| `pnpm check:data-boundary` | Check forbidden tracked research files and archives    |
-| `pnpm check`               | All CI quality gates, including the data boundary      |
+| Command                    | Purpose                                                       |
+| -------------------------- | ------------------------------------------------------------- |
+| `pnpm dev`                 | Web development server                                        |
+| `pnpm import:srnfo`        | Run the offline SR!NFO CSV import pipeline                    |
+| `pnpm integrate:catalog`   | Join local reviewed CSV/XML inputs into a development catalog |
+| `pnpm import:xml`          | Run the offline development XML relationship spike            |
+| `pnpm lint`                | ESLint, including package import restrictions                 |
+| `pnpm typecheck`           | Strict TypeScript checks for all five packages                |
+| `pnpm test`                | Vitest provenance and app integration checks                  |
+| `pnpm test:watch`          | Watch tests during development                                |
+| `pnpm build`               | Typecheck workspace and build app into `apps/web/dist`        |
+| `pnpm preview`             | Serve the production build locally                            |
+| `pnpm format`              | Format source and docs                                        |
+| `pnpm format:check`        | Verify formatting                                             |
+| `pnpm check:data-boundary` | Check forbidden tracked research files and archives           |
+| `pnpm check`               | All CI quality gates, including the data boundary             |
 
 The additional `pnpm check:data-boundary` command checks for forbidden tracked research files and archives. It is included in `pnpm check`.
 
@@ -88,9 +89,8 @@ normalized artifacts, never live Google Sheets. Normalized entity contracts are 
 An offline SR!NFO CSV import pipeline is implemented in `tools/data-import`
 ([README](tools/data-import/README.md)): it normalizes operator-supplied CSV
 exports into the versioned dataset contract with hash-verified provenance,
-explicit units, known/unknown states and a deterministic report, and is tested
-against committed synthetic fixtures only. An [offline XML relationship spike](docs/data/xml-extraction.md) extracts
-development evidence from supplied fragments; full XML normalization and reviewed game compatibility data remain future tasks. Read the [data policy](docs/data.md)
+explicit units, known/unknown states and a deterministic report, with committed synthetic regression fixtures and optional private source verification. An [offline XML relationship spike](docs/data/xml-extraction.md) extracts
+development evidence from supplied fragments; scoped semantic resolution and reviewed development integration support private source research; complete production compatibility data remains unverified. Read the [data policy](docs/data.md)
 before adding data or images. The [ANK MK38 source notes](docs/data/ank-mk38-source-audit.md)
 record source locations, evidence questions and the extraction handoff. Detailed
 research output stays in ignored local reports; the tracked notes explain how to

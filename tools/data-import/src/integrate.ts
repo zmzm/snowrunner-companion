@@ -9,6 +9,7 @@ import type { Dataset } from '@snowrunner/game-data';
 import { runImport, sha256Of } from './run';
 import type { RunResult } from './run';
 import { extractXml, xmlManifestSchema } from './xml';
+import { extractResolvedXml } from './xml-evidence';
 
 const id = z.string().trim().min(1);
 const evidence = z.strictObject({
@@ -39,10 +40,13 @@ export interface DevelopmentCatalog {
   dataset: Dataset;
   report: {
     csv: Extract<RunResult, { ok: true }>['report'];
-    xml: ReturnType<typeof extractXml>['report'];
+    xml:
+      | ReturnType<typeof extractXml>['report']
+      | ReturnType<typeof extractResolvedXml>['report'];
     review: z.infer<typeof integrationReviewSchema>;
     conflicts: { path: string; left: unknown; right: unknown }[];
     diagnostics: { subject: string; detail: string }[];
+    projections: { applied: number; withheld: number };
     limitations: string[];
   };
 }
@@ -56,18 +60,24 @@ export function integrateDevelopmentCatalog(input: {
   xmlManifest: unknown;
   xmlContents: ReadonlyMap<string, string>;
   review: unknown;
+  xmlResolution?: unknown;
 }): DevelopmentCatalog {
   const review = integrationReviewSchema.parse(input.review);
   const csv = runImport(input.csvManifest, input.csvContents);
   if (!csv.ok) throw new Error('CSV dataset validation failed');
   const base = datasetSchema.parse(JSON.parse(csv.datasetJson));
   const manifest = xmlManifestSchema.parse(input.xmlManifest);
-  const xml = extractXml(manifest, input.xmlContents);
+  const xml =
+    input.xmlResolution === undefined
+      ? extractXml(manifest, input.xmlContents)
+      : extractResolvedXml(manifest, input.xmlContents, input.xmlResolution);
   const xmlSource = {
     sourceId: review.xmlSourceId,
     sourceUrl: manifest.source.locator,
     // Includes exact file hashes, links, entry and source version.
-    sourceVersion: sha256Of(JSON.stringify(manifest)),
+    sourceVersion: sha256Of(
+      JSON.stringify({ manifest, resolution: input.xmlResolution ?? null }),
+    ),
     retrievedAt: manifest.source.retrievedAt,
     usageRights: manifest.source.usageRights,
   };
@@ -116,12 +126,19 @@ export function integrateDevelopmentCatalog(input: {
       ]),
     );
   }
+  let appliedProjections = 0;
+  let withheldProjections = 0;
   function reviewed(e: z.infer<typeof evidence>): boolean {
     for (const index of e.relationshipIndexes)
       if (!xml.relationships[index])
         throw new Error('Review cites missing XML evidence');
     // The spike cannot safely scope all inheritance issues to individual facts.
-    return xml.report.issues.length === 0;
+    if (xml.report.issues.length) {
+      withheldProjections++;
+      return false;
+    }
+    appliedProjections++;
+    return true;
   }
   function checkSource(value: unknown): void {
     if (Array.isArray(value)) value.forEach(checkSource);
@@ -132,6 +149,11 @@ export function integrateDevelopmentCatalog(input: {
         checkSource(child);
       }
     }
+  }
+  for (const projections of [review.trucks, review.components]) {
+    const ids = projections.map((projection) => projection.entity.id);
+    if (new Set(ids).size !== ids.length)
+      throw new Error('Duplicate reviewed entity ID');
   }
   const trucks = new Map(base.trucks.map((t) => [t.id, t]));
   const components = new Map(base.components.map((c) => [c.id, c]));
@@ -179,10 +201,12 @@ export function integrateDevelopmentCatalog(input: {
         (socket.defaultComponentId.status === 'known' &&
           socket.defaultComponentId.value !== null &&
           (!hasComponent(socket.defaultComponentId.value) ||
-            socket.compatibleComponentIds.status !== 'known' ||
-            !socket.compatibleComponentIds.value.includes(
-              socket.defaultComponentId.value,
-            ))) ||
+            components.get(socket.defaultComponentId.value)?.kind !==
+              socket.kind ||
+            (socket.compatibleComponentIds.status === 'known' &&
+              !socket.compatibleComponentIds.value.includes(
+                socket.defaultComponentId.value,
+              )))) ||
         (socket.excludedComponentIds.status === 'known' &&
           socket.excludedComponentIds.value.some((key) => !hasComponent(key))),
     );
@@ -216,7 +240,7 @@ export function integrateDevelopmentCatalog(input: {
   const rules = review.rules
     .filter((r) => reviewed(r.evidence))
     .map((r) => r.rule);
-  const rulesResolved = rules.every(
+  const resolvedRules = rules.filter(
     (rule) =>
       hasComponent(rule.componentId) &&
       (rule.kind !== 'requires' || hasComponent(rule.requiredComponentId)) &&
@@ -224,6 +248,10 @@ export function integrateDevelopmentCatalog(input: {
       (rule.kind !== 'requires-any' ||
         rule.requiredComponentIds.every(hasComponent)),
   );
+  const rulesResolved = resolvedRules.length === rules.length;
+  const unresolvedRuleCount = rules.length - resolvedRules.length;
+  appliedProjections -= unresolvedRuleCount;
+  withheldProjections += unresolvedRuleCount;
   if (!rulesResolved)
     diagnostics.push({
       subject: truck.id,
@@ -237,8 +265,13 @@ export function integrateDevelopmentCatalog(input: {
     components: [...components.values()],
     rulesByTruck: {
       [truck.id]:
-        rulesResolved && xml.report.issues.length === 0
-          ? { status: 'known', value: rules, sourceId: review.xmlSourceId }
+        (rulesResolved || resolvedRules.length > 0) &&
+        xml.report.issues.length === 0
+          ? {
+              status: 'known',
+              value: resolvedRules,
+              sourceId: review.xmlSourceId,
+            }
           : unknown('XML restrictions are unresolved'),
     },
     ruleCompletenessByTruck: {
@@ -264,6 +297,10 @@ export function integrateDevelopmentCatalog(input: {
       review,
       conflicts,
       diagnostics,
+      projections: {
+        applied: appliedProjections,
+        withheld: withheldProjections,
+      },
       limitations: [
         'Historical XML does not establish current-game behavior.',
         'Reviewed projections require operator verification of semantics, units and complete socket inventories.',
