@@ -2,7 +2,7 @@
 
 ## Current state
 
-No game data has been imported. `catalogStatus` reports schema version 1, no dataset
+No game data is shipped in the production catalog. Optional private imports and cross-source verification stay under ignored research paths. `catalogStatus` reports schema version 1, no dataset
 version, zero truck IDs and no sources. The provenance Zod schema validates metadata. Separate [entity schemas](data/entity-contracts.md)
 validate normalized trucks, components, builds, requirements and versioned datasets.
 An offline SR!NFO CSV import pipeline exists in `tools/data-import`
@@ -69,6 +69,13 @@ into zero, false, a guessed stat or presumed compatibility. Present unknowns cle
 and avoid declaring a build feasible when required constraints are unresolved.
 Distinguish trailer cargo capacity from on-truck cargo capacity.
 
-Entity contracts attach provenance to facts, but no real truck entities have
-been imported. Future ANK MK38 rules must verify the fixed-bed constraints against
-source evidence before representing feasible configurations.
+Entity contracts attach provenance to facts. Local historical-source projections
+may contain reviewed facts with explicit remaining gaps; they do not certify
+current-game feasibility or distribution rights.
+
+## Development integration
+
+The [offline integration workflow](data/development-catalog.md) joins CSV facts
+with explicitly reviewed XML projections, retaining conflicts and unresolved
+relationships. Its development envelope is not distribution approval. No
+ANK MK38 dataset is approved for production distribution.

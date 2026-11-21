@@ -126,9 +126,10 @@ harness retains all source hashes and never edits a raw file.
 The completeness review remains **incomplete for the whole catalog**. One malformed
 add-on source is quarantined; its non-whitespace text is rejected by the strict
 parser. A parseable metadata fragment does not make the whole source valid, so
-it is not silently repaired or accepted. Multiple scales still match the stock
-wheel identifiers even after applying default suspension clearance. The default
-selection stays unknown; explicit wheel selections can still be evaluated.
+it is not silently repaired or accepted. Multiple scales match the declared stock wheel identifiers, and the available
+evidence does not establish a unique suspension-consistent factory configuration.
+The latest scoped comparison supersedes earlier stock-scale interpretations; the
+default stays unknown and explicit wheel selections can still be evaluated.
 
 **No game installation is required for this XML-only scope.** The catalog reports
 what the pinned historical XML and documented semantics support. Bed menu behavior,
@@ -146,3 +147,20 @@ Semantic references used for this pass:
 - [Required add-ons](https://expeditions-guides.saber.games/truck_modding/tags_and_attributes_of_trucks/truckaddon/gamedata/requiredaddon/)
 - [Truck exclusions](https://expeditions-guides.saber.games/truck_modding/tags_and_attributes_of_trucks/truck/gamedata/)
 - [Cargo-slot semantics](https://expeditions-guides.saber.games/truck_modding/tags_and_attributes_of_trucks/truckaddon/gamedata/addonslots/)
+
+## Comprehensive CSV/XML reconciliation
+
+The [development catalog workflow](development-catalog.md) also reconciles the
+available workbook with scoped XML across all six component categories. It records
+canonical identities, source-only records, composite wheel/tire relationships,
+unsupported entity kinds and source disagreements. Applied and withheld projection
+counts make an empty or skipped integration visible. Known restrictions remain
+usable with explicitly incomplete coverage when another relation cannot resolve.
+
+Local comprehensive runs extend addon discovery through inheritance before
+matching installation sockets. They exercise full mechanical combinations,
+wheel/suspension pairs and individually admitted restrictions, then replay the
+same inputs through `pnpm integrate:catalog`. Reports explicitly distinguish
+validator agreement with its inputs from independent game-behavior verification.
+The latest inventories and results stay under ignored `data/reports/`; no private
+input or report is a CI prerequisite.
